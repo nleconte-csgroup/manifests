@@ -1,0 +1,19 @@
+# Test values for Gateway API HTTPRoute configuration with ListenerSet
+gatewayApi:
+  enabled: true
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: ListenerSet
+    name: oauth2-proxy
+    namespace: my-namespace
+  hostnames:
+  - oauth.example.com
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /oauth2
+  annotations:
+    example.com/annotation: "value"
+  labels:
+    example.com/label: "value"

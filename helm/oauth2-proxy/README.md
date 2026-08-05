@@ -143,6 +143,51 @@ redis-ha:
 
 With above new chart version won't add extra `-ha` suffix to all redis resources.
 
+### To 11.0.0
+
+Version 11.0.0 use `gatewayAPI.parentRefs` instead of `gatewayAPI.gatewayRef`.
+
+**Breaking Change**: If you were previously using the gatewayAPI options, you must now use `gatewayAPI.parentRefs` instead of `gatewayAPI.gatewayRef` to configure the HTTPRoute's parent. It can be a `Gateway` or/and one or several `ListenerSet`.
+
+Before:
+
+```yaml
+gatewayApi:
+  enabled: true
+  gatewayRef:
+    name: gateway
+    namespace: gateway-system
+    sectionName: my-gateway-https-listener-name
+  # ... other gatewayApi configuration
+```
+
+After (Gateway version):
+
+```yaml
+gatewayApi:
+  enabled: true
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: gateway
+    namespace: gateway-system
+    sectionName: my-gateway-https-listener-name
+  # ... other gatewayApi configuration
+```
+
+After (listernerSet version):
+
+```yaml
+gatewayApi:
+  enabled: true
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: ListenerSet
+    name: oauth2-proxy
+    namespace: my-namespace
+  # ... other gatewayApi configuration
+```
+
 ## Configuration
 
 The following table lists the configurable parameters of the oauth2-proxy chart and their default values.
@@ -335,15 +380,16 @@ This chart supports using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.
 
 1. Ensure the Gateway API CRDs are installed in your cluster
 2. Create a Gateway resource (or use an existing one)
-3. Configure the chart to create an HTTPRoute
+3. (Optionnal) Create a ListenerSet resource (or use an existing one)
+4. Configure the chart to create an HTTPRoute
 
 ### Basic Gateway API Configuration
 
 ```yaml
 gatewayApi:
   enabled: true
-  gatewayRef:
-    name: my-gateway
+  parentRefs:
+  - name: my-gateway
     namespace: gateway-system
   hostnames:
     - oauth.example.com
@@ -354,8 +400,8 @@ gatewayApi:
 ```yaml
 gatewayApi:
   enabled: true
-  gatewayRef:
-    name: my-gateway
+  parentRefs:
+  - name: my-gateway
     namespace: gateway-system
     sectionName: my-gateway-https-listener-name
   hostnames:

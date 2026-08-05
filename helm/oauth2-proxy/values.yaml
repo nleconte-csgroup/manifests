@@ -379,12 +379,12 @@ gatewayApi:
   #   namespace: gateway-system
   #   sectionName: my-gateway-https-listener-name
   #
-  # listenerSet version
+  # ListenerSet version
   # parentRefs:
   # - group: gateway.networking.k8s.io
   #   kind: ListenerSet
   #   name: oauth2-proxy
-  #   namespace: gateway-system
+  #   namespace: my-namespace
   #
   # https://gateway-api.sigs.k8s.io/reference/api-spec/main/spec/#parentreference
   # https://gateway-api.sigs.k8s.io/reference/api-types/listenerset/#route-attachment

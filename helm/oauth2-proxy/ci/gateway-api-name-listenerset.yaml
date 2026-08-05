@@ -1,0 +1,18 @@
+# Gateway API configuration with rule name with ListenerSet
+gatewayApi:
+  enabled: true
+  parentRefs:
+  - kind: ListenerSet
+    name: oauth2-proxy
+    namespace: my-namespace
+  rules:
+    - name: service
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+    - name: metrics
+      matches:
+        - path:
+            type: PathPrefix
+            value: /metrics
