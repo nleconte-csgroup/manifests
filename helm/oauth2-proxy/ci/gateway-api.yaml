@@ -1,7 +1,8 @@
 # Test values for Gateway API HTTPRoute configuration
 gatewayApi:
   enabled: true
-  gatewayRef:
+  parentRefs:
+  - kind: Gateway
     name: example-gateway
     namespace: gateway-system
   hostnames:

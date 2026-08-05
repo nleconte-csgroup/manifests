@@ -1,7 +1,8 @@
 # Gateway API configuration with rule name
 gatewayApi:
   enabled: true
-  gatewayRef:
+  parentRefs:
+  - kind: Gateway
     name: test-gateway
   rules:
     - name: service
